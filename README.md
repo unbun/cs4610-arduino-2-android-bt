@@ -1,5 +1,5 @@
 This is a setup for 2-way bluetooth communication between an arduino and an android phone. There is a sample
-arduino script for the arduino end, and an android studio project for the android phone app.
+arduino script (in `testSystem`) for the arduino end, and an android studio project for the android phone app (the top level repo is an Android Studio project, but the `app/` directory is where the real meat and potatoes are.
 
 This README will go over what you need to do to make this app work for you. There are also comments
 and TODO's that describe what you will probably have to change for your application.
