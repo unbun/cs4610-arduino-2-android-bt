@@ -1,6 +1,7 @@
 This is a setup for 2-way bluetooth communication between an arduino and an android phone. There is a sample
 arduino script for the arduino end, and an android studio project for the android phone app.
 
+
 This README will go over what you need to do to make this app work for you. There are also comments
 and TODO's that describe what you will probably have to change for your application.
 
@@ -10,6 +11,9 @@ This is an android app that allows you to connect to any other device (specifica
 and participate in 2-way communications with it. There are three activities (what Android calls pages in the app).
 
 ### 1. MainActivity
+
+![](media/bt_connect.gif)
+
 The main activity is what shows up when you launch the app. It allows you to turn on the bluetooth
 pairing and discovery of your phone so that you can see the Arduino and the Arduino can see you. The page
 has instructions on how to use it. Once you are done, click the button in the top right corner to move on.
@@ -21,11 +25,17 @@ near by, but can't expose itself to all of them, or be ready to connect to all o
 
 
 ### 2. ReceiveDataActivity
+
+![](media/data_plot.gif)
+
 This activity displays data that the phone is receiving from the device. When I originally made this,
 I was making it for a healthcare related project, so I have the data being plotted, and there are
 different "data types" which basically just means the plots change color.
 
 #### What you need to do to make this Activity work for you.
+
+![](media/robot_ctrl.gif)
+
 The data is coming in as an endless byte stream over the Bluetooth Serial commuincation stream of the phone.
 So to actually differentiate from message to message, I included "EOF" at the end of every message
 that I send to the phone. You should probably do something similar, and account for it. Also, I only
