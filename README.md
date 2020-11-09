@@ -1,6 +1,6 @@
 This is a setup for 2-way bluetooth communication between an arduino and an android phone. There is a sample
 arduino script (in [`testSystem`](https://github.com/unbun/cs4610-arduino-2-android-bt/tree/master/testSystem)) for the arduino end, and an android studio project for the android phone app
-(the top level repo is an Android Studio project, but the `app/` directory is where the real meat and potatoes are. 
+(the top level repo is an Android Studio project, but the `app/` directory is where the real meat and potatoes are). 
 The [`activies`](https://github.com/unbun/cs4610-arduino-2-android-bt/tree/master/app/src/main/java/athelas/javableapp/activities) contain the important class that, in my mind, are decently high-level but also give you control and
 functionality for bluetooth comms. So those would be a good place to start if you are trying to see exactly what this is doing. The [`res/layout`](https://github.com/unbun/cs4610-arduino-2-android-bt/tree/master/app/src/main/res/layout) directory holds the xml's that define the GUI and GUI elements that the activies reference (by ID). Also check out [this directory](https://github.com/unbun/cs4610-arduino-2-android-bt/tree/master/app/src/main/res/values) for some constants that are used.
 
