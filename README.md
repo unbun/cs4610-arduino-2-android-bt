@@ -2,7 +2,7 @@ This is a setup for 2-way bluetooth communication between an arduino and an andr
 arduino script (in [`testSystem`](https://github.com/unbun/cs4610-arduino-2-android-bt/tree/master/testSystem)) for the arduino end, and an android studio project for the android phone app
 (the top level repo is an Android Studio project, but the `app/` directory is where the real meat and potatoes are. 
 The [`activies`](https://github.com/unbun/cs4610-arduino-2-android-bt/tree/master/app/src/main/java/athelas/javableapp/activities) contain the important class that, in my mind, are decently high-level but also give you control and
-functionality for bluetooth comms.
+functionality for bluetooth comms. So those would be a good place to start if you are trying to see exactly what this is doing.
 
 This README will go over what you need to do to make this app work for you. There are also comments
 and TODO's that describe what you will probably have to change for your application.
