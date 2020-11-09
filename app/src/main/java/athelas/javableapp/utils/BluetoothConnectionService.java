@@ -1,15 +1,19 @@
 package athelas.javableapp.utils;
 
 import android.app.ProgressDialog;
+import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.IBinder;
 import android.os.ParcelUuid;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.io.IOException;
@@ -18,7 +22,9 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.UUID;
 
-public class BluetoothConnectionService {
+import athelas.javableapp.activities.MainActivity;
+
+public class BluetoothConnectionService extends Service {
     private static final String TAG =  "BluetoothConnectionServ";
     private static final String appName = "MYAPP";
     private static final UUID MY_UUID_INSECURE =
@@ -37,10 +43,17 @@ public class BluetoothConnectionService {
     private ConnectedThread mConnectedThread;
 
 
+
     public BluetoothConnectionService(Context contex) {
         this.mContext = contex;
         this.mBTAdapter = BluetoothAdapter.getDefaultAdapter();
         start();
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     /**
@@ -111,9 +124,12 @@ public class BluetoothConnectionService {
 
         public ConnectThread(BluetoothDevice device, UUID uuid) {
             Log.d(TAG, "ConnectThread: started: " + device.getName() +", " + uuid);
-            for(ParcelUuid iUuid: device.getUuids()) {
-                Log.d(TAG, "\tdevice uuid: " + iUuid);
+            if(device.getUuids() != null) {
+                for(ParcelUuid iUuid: device.getUuids()) {
+                    Log.d(TAG, "\tdevice uuid: " + iUuid);
+                }
             }
+
             mmDevice = device;
             deviceUUID = uuid;
         }
@@ -125,11 +141,11 @@ public class BluetoothConnectionService {
             // Get a BluetoothSocket for a connection with the
             // given BluetoothDevice
             try {
-                Log.d(TAG, "ConnectThread: Trying to create InsecureRfcommSocket using UUID: "
-                        +MY_UUID_INSECURE );
-                tmp = mmDevice.createInsecureRfcommSocketToServiceRecord(deviceUUID);
+                Log.d(TAG, "ConnectThread: Trying to create socket using UUID: "
+                        + deviceUUID );
+                tmp = mmDevice.createRfcommSocketToServiceRecord(deviceUUID);
             } catch (IOException e) {
-                Log.e(TAG, "ConnectThread: Could not create InsecureRfcommSocket " + e.getMessage());
+                Log.e(TAG, "ConnectThread: Could not create socket " + e.getMessage());
             }
 
             mmSocket = tmp;
@@ -151,7 +167,7 @@ public class BluetoothConnectionService {
                 } catch (IOException e1) {
                     Log.e(TAG, "mConnectThread: run: Unable to close connection in socket " + e1.getMessage());
                 }
-                Log.d(TAG, "run: ConnectThread: Could not connect to UUID: " + MY_UUID_INSECURE );
+                Log.d(TAG, "run: ConnectThread: Could not connect to UUID: " + MY_UUID_INSECURE + e.getLocalizedMessage());
             }
 
             connected(mmSocket, mmDevice);

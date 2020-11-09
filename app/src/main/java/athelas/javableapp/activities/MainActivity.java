@@ -114,11 +114,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             if (action.equals(BluetoothDevice.ACTION_FOUND)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                mBTDevicesList.add(device);
+                if(mBTDevicesList.indexOf(device) == -1) {
+                    mBTDevicesList.add(device);
+                    Log.d(TAG, "mDiscoverReciever: " + device.getName() + ": " + device.getAddress());
+                    mDeviceListAdapter = new DeviceListAdapter(context, R.layout.device_adapter_view, mBTDevicesList);
+                    lvNewDevices.setAdapter(mDeviceListAdapter);
+                }
+            } else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_STARTED)) {
 
-                Log.d(TAG, "mDiscoverReciever: " + device.getName() + ": " + device.getAddress());
-                mDeviceListAdapter = new DeviceListAdapter(context, R.layout.device_adapter_view, mBTDevicesList);
-                lvNewDevices.setAdapter(mDeviceListAdapter);
+            } else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)) {
+                Log.d(TAG, "mDiscoverReceiver: discovery finished");
             }
         }
     };
@@ -143,6 +148,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 if (device.getBondState() == BluetoothDevice.BOND_NONE) {
                     Log.d(TAG, "mBondReciever: BOND_NONE.");
 
+                }
+            } else if (action.equals("android.bluetooth.device.action.PAIRING_REQUEST")) {
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
+                    //setBluetoothPairingPin(device);
                 }
             }
         }
