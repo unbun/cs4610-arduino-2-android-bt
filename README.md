@@ -72,8 +72,11 @@ works well with this app.
 The app controls the robot arm by sending formatted control strings. The formats are as follows:
 
 Set Velocity: `VEL:[leftS]:[rightS]`
+
             `leftS` : the left speed (max 3 digits)
+            
             `rightS` : the right speed (max 3 digits)
+            
 Stop: `STP`
 
 
