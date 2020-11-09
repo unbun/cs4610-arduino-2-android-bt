@@ -2,7 +2,7 @@ This is a setup for 2-way bluetooth communication between an arduino and an andr
 arduino script (in [`testSystem`](https://github.com/unbun/cs4610-arduino-2-android-bt/tree/master/testSystem)) for the arduino end, and an android studio project for the android phone app
 (the top level repo is an Android Studio project, but the `app/` directory is where the real meat and potatoes are. 
 The [`activies`](https://github.com/unbun/cs4610-arduino-2-android-bt/tree/master/app/src/main/java/athelas/javableapp/activities) contain the important class that, in my mind, are decently high-level but also give you control and
-functionality for bluetooth comms. So those would be a good place to start if you are trying to see exactly what this is doing.
+functionality for bluetooth comms. So those would be a good place to start if you are trying to see exactly what this is doing. The [`res/layout`](https://github.com/unbun/cs4610-arduino-2-android-bt/tree/master/app/src/main/res/layout) directory holds the xml's that define the GUI and GUI elements that the activies reference (by ID). Also check out [this directory](https://github.com/unbun/cs4610-arduino-2-android-bt/tree/master/app/src/main/res/values) for some constants that are used.
 
 This README will go over what you need to do to make this app work for you. There are also comments
 and TODO's that describe what you will probably have to change for your application.
@@ -59,7 +59,7 @@ You can edit [that paradigm](https://github.com/unbun/cs4610-arduino-2-android-b
 velocities.
 
 ### Changing the app GUI
-In the `res/layout` folder, the three XML files that start with `activity_` define the layout and GUI
+In the [`res/layout`](https://github.com/unbun/cs4610-arduino-2-android-bt/tree/master/app/src/main/res/layout) folder, the three XML files that start with `activity_` define the layout and GUI
 elements. Use Android Studio to easily play around with the app's visuals.
 
 ## The Arduino Script
