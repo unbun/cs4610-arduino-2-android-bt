@@ -57,6 +57,16 @@ github repo](https://github.com/Makeblock-official/Makeblock-Libraries/blob/mast
 also has some good examples of their own bluetooth communication modules, but the one provided here
 works well with this app.
 
+## Robot Control Strings
+
+The app controls the robot arm by sending formatted control strings. The formats are as follows:
+
+Set Velocity: `VEL:[leftS]:[rightS]`
+            `leftS` : the left speed (max 3 digits)
+            `rightS` : the right speed (max 3 digits)
+Stop: `STP`
+
+
 ## Credit
 
 I partially went through [this tutorial](https://www.youtube.com/watch?v=y8R2C86BIUc&list=PLgCYzUzKIBE8KHMzpp6JITZ2JxTgWqDH2)
