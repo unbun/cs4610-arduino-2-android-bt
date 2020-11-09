@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">athelas BLE Java</string>
+    <string name="toggle_bt">BT On/OFF</string>
+    <string name="toggle_discovery">Enable Discovery</string>
+    <string name="discover">Search</string>
+    <string name="start_connection">Connect</string>
+    <string name="outgoing_data">Enter Data Here</string>
+    <string name="send">Send</string>
+    <string name="incoming_data">Incoming Data</string>
+    <string name="live_data_cont"><![CDATA[Live Data >]]></string>
+    <string name="live_data_back"><![CDATA[< Live Data]]></string>
+    <string name="connect"><![CDATA[< Connect]]></string>
+    <string name="connection_instructions">Step 1) Turn Bluetooth on\nStep 2) Enable Discovery\nStep 3) Search for Devices\nStep 4) Select Device To Pair\nStep 5) Start Connection</string>
+    <string name="robot"><![CDATA[Robot >]]></string>
+    <string name="robot_control_page">Robot Control Page</string>
+    <string name="go_to_data">Go To Data Reading</string>
+    <string name="go_to_connect_screen">Go To Connect Screen</string>
+    <string name="go_to_robot_control">Go To Robot Control</string>
+    <string name="right_speed">right speed</string>
+    <string name="retract">Retract</string>
+    <string name="stop">Stop</string>
+    <string name="left_speed">left
+        speed</string>
+    <string name="user_str">User</string>
+    <string name="data_type">Data Type</string>
+    <string name="send_ctlrs">SEND</string>
+
+    <string-array name="data_types">
+        <item>Heart rate</item>
+        <item>Blood O2</item>
+        <item>Temperature</item>
+        <item>Lung Audio</item>
+    </string-array>
+
+    <string-array name="preloaded_users">
+        <item>Unnas Hussain</item>
+    </string-array>
+</resources>
