@@ -22,6 +22,12 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.UUID;
 
+
+/*
+ This service will connect to the Auriga (if the Arduino Serial Monitor is not open), but not when
+ when the Auriga is flashed with its firmware.
+ */
+
 import athelas.javableapp.activities.MainActivity;
 
 public class BluetoothConnectionService extends Service {
@@ -41,8 +47,6 @@ public class BluetoothConnectionService extends Service {
     ProgressDialog mProgressDialog;
 
     private ConnectedThread mConnectedThread;
-
-
 
     public BluetoothConnectionService(Context contex) {
         this.mContext = contex;
@@ -71,8 +75,8 @@ public class BluetoothConnectionService extends Service {
 
             // Create a new listening server socket
             try{
-                tmp = mBTAdapter.listenUsingInsecureRfcommWithServiceRecord(appName, MY_UUID_INSECURE);
-                Log.d(TAG, "AcceptThread: Setting up Server using: " + MY_UUID_INSECURE);
+                tmp = mBTAdapter.listenUsingRfcommWithServiceRecord(appName, UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"));
+                Log.d(TAG, "AcceptThread: Setting up Server using: " + UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"));
             }catch (IOException e){
                 Log.e(TAG, "AcceptThread: IOException: " + e.getMessage() );
             }
@@ -124,10 +128,12 @@ public class BluetoothConnectionService extends Service {
 
         public ConnectThread(BluetoothDevice device, UUID uuid) {
             Log.d(TAG, "ConnectThread: started: " + device.getName() +", " + uuid);
-            if(device.getUuids() != null) {
+            if(device.getUuids() != null && device.getUuids().length != 0) {
                 for(ParcelUuid iUuid: device.getUuids()) {
                     Log.d(TAG, "\tdevice uuid: " + iUuid);
                 }
+            } else {
+                Log.d(TAG, "\tdevice uuid: none");
             }
 
             mmDevice = device;
@@ -142,13 +148,14 @@ public class BluetoothConnectionService extends Service {
             // given BluetoothDevice
             try {
                 Log.d(TAG, "ConnectThread: Trying to create socket using UUID: "
-                        + deviceUUID );
-                tmp = mmDevice.createRfcommSocketToServiceRecord(deviceUUID);
+                        + deviceUUID.toString() );
+                mmSocket = mmDevice.createInsecureRfcommSocketToServiceRecord(deviceUUID);
+
             } catch (IOException e) {
                 Log.e(TAG, "ConnectThread: Could not create socket " + e.getMessage());
             }
 
-            mmSocket = tmp;
+//            mmSocket = tmp;
 
             // Always cancel discovery because it will slow down a connection
             mBTAdapter.cancelDiscovery();
@@ -161,13 +168,13 @@ public class BluetoothConnectionService extends Service {
                 Log.d(TAG, "run: ConnectThread connected.");
             } catch (IOException e) {
                 // Close the socket
-                try {
-                    mmSocket.close();
-                    Log.d(TAG, "run: Closed Socket.");
-                } catch (IOException e1) {
-                    Log.e(TAG, "mConnectThread: run: Unable to close connection in socket " + e1.getMessage());
-                }
-                Log.d(TAG, "run: ConnectThread: Could not connect to UUID: " + MY_UUID_INSECURE + e.getLocalizedMessage());
+//                try {
+//                   mmSocket.close();
+//                   Log.d(TAG, "run: Closed Socket.");
+//                } catch (IOException e1) {
+//                    Log.e(TAG, "mConnectThread: run: Unable to close connection in socket " + e1.getMessage());
+//                }
+                Log.d(TAG, "run: ConnectThread: Could not connect to UUID: " + MY_UUID_INSECURE + " " + e.getLocalizedMessage());
             }
 
             connected(mmSocket, mmDevice);

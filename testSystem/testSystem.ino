@@ -131,7 +131,7 @@ void uartWriteTick(){
 void setup()
 {
   Serial.begin(9600);//In order to fit the Bluetooth module's default baud rate, only 9600
-  bleSerial.begin(9600);
+  bleSerial.begin(115200);
 
   lcd.begin(16, 2);
   lcd.clear();

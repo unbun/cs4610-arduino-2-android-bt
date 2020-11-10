@@ -11,6 +11,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.*;
 import android.os.Build;
+import android.os.ParcelUuid;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     // TODO: find the UUID of your bluetooth device and put it here.
     private static final UUID HC02_UUID_INSECURE =
             UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
-
+                           //00001101-0000-1000-8000-00805f9b34fb
     BluetoothDevice mBTDevice;
 
     BluetoothAdapter mBtAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             if (action.equals(BluetoothDevice.ACTION_FOUND)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                if(mBTDevicesList.indexOf(device) == -1) {
+                if (mBTDevicesList.indexOf(device) == -1) {
                     mBTDevicesList.add(device);
                     Log.d(TAG, "mDiscoverReciever: " + device.getName() + ": " + device.getAddress());
                     mDeviceListAdapter = new DeviceListAdapter(context, R.layout.device_adapter_view, mBTDevicesList);
@@ -149,7 +150,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     Log.d(TAG, "mBondReciever: BOND_NONE.");
 
                 }
-            } else if (action.equals("android.bluetooth.device.action.PAIRING_REQUEST")) {
+
+            }
+
+            if (action.equals("android.bluetooth.device.action.PAIRING_REQUEST")) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
                     //setBluetoothPairingPin(device);
@@ -224,9 +228,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void startBTConnection(BluetoothDevice device, UUID uuid) {
         Log.d(TAG, "startBTConnection: Initalizing RFCOM Bluetooth Connection.");
-        mBTConnection.startClient(device, uuid);
-        Utils.toastMessage(getApplicationContext(), "Connected to " + device.getName());
-        toRecievingPage(true);
+
+        if (device.getUuids() != null && device.getUuids().length > 0) {
+            uuid = device.getUuids()[0].getUuid();
+            Log.d(TAG, "startBTConnection: device has " + device.getUuids().length + " uuids: " + uuid);
+
+            mBTConnection.startClient(device, uuid);
+            Utils.toastMessage(getApplicationContext(), "Connected to " + device.getName());
+            toRecievingPage(true);
+        } else {
+            Log.d(TAG, "startBTConnection: failed");
+        }
+
+
     }
 
     public void enableDisableBT() {
