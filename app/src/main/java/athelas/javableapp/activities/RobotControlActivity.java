@@ -55,11 +55,21 @@ public class RobotControlActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // TODO: instead of manually inputting speed, use your control program to
                 //   generate the desired speed
-                double lSpeed = Double.parseDouble(etLeftSpeed.getText().toString());
-                double rSpeed = Double.parseDouble(etRightSpeed.getText().toString());
 
-                Utils.toastMessage(getApplicationContext(), "Moving (" + lSpeed + ", " + rSpeed + ")");
-                writeCommand("VEL", lSpeed, rSpeed);
+                if(etLeftSpeed.getText().length() > 0 && etRightSpeed.getText().length() > 0) {
+                    double lSpeed = Double.parseDouble(etLeftSpeed.getText().toString());
+                    double rSpeed = Double.parseDouble(etRightSpeed.getText().toString());
+
+//                Utils.toastMessage(getApplicationContext(), "Moving (" + lSpeed + ", " + rSpeed + ")");
+//                writeCommand("VEL", lSpeed, rSpeed);
+                    boolean red = lSpeed  > 0;
+                    boolean blue = rSpeed > 0;
+                    Utils.toastMessage(getApplicationContext(), "Color (r=" + red + ", b=" + blue + ")");
+                    writeColor(red, false, blue);
+                } else {
+                    Utils.toastMessage(getApplicationContext(), "Please Enter speeds.");
+                }
+
             }
         });
 
@@ -81,11 +91,23 @@ public class RobotControlActivity extends AppCompatActivity {
     }
 
     private void writeCommand(String label, double lSpeed, double rSpeed) {
+
+        //https://www.makeblock.com/project/makeblock-orion-protocol
         String lSpeedStr = lSpeed + "";
         lSpeedStr = lSpeedStr.substring(0, 3);
         String rSpeedStr = rSpeed + "";
         rSpeedStr = rSpeedStr.substring(0, 3);
+
         writeCommand("VEL:" + lSpeedStr + ":" + rSpeedStr);
+    }
+
+    private void writeColor(boolean red, boolean green, boolean blue){
+        byte[] bytes = new byte[]{(byte)0xff, (byte)0x55, (byte)0x09, (byte)0x09, (byte)0x00, (byte)0x02, (byte)0x08, (byte)0x07, (byte)0x00, (byte)0x0a, (byte)0x00, (byte)0x00};
+
+        bytes[9] = red ? (byte)0x0a : (byte)0x00;
+        bytes[10] = green ? (byte)0x0a : (byte)0x00;
+        bytes[11] = blue ? (byte)0x0a : (byte)0x00;
+        mBTConnection.write(bytes);
     }
 
     ///////////////////////////////////////////////////////////////
